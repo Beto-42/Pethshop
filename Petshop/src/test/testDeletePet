@@ -1,0 +1,19 @@
+import io.rest-assured.RestAssured;
+import org.testng.annotations.Test;
+
+import static io.rest-assured.RestAssured.given;
+
+public class PetStoreTests {
+
+    @Test
+    public void testDeletePet() {
+        RestAssured.baseURI = "https://petstore.swagger.io/v2";
+
+        given()
+            .pathParam("petId", 12345)
+        .when()
+            .delete("/pet/{petId}")
+        .then()
+            .statusCode(200);
+    }
+}

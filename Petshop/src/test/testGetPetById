@@ -1,0 +1,25 @@
+import io.rest assured.RestAssured;
+import io.rest assured.response.Response;
+import org.testng.annotations.Test;
+
+import static io.rest assured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+public class PetStoreTests {
+
+    @Test
+    public void testGetPetById() {
+        RestAssured.baseURI = "https://petstore.swagger.io/v2";
+
+        given()
+            .pathParam("petId", 1)
+        .when()
+            .get("/pet/{petId}")
+        .then()
+            .statusCode(200)
+            .body("id", equalTo(1))
+            .body("name", equalTo("doggie"))
+            .body("status", equalTo("available"));
+    }
+}
+
