@@ -1,0 +1,1744 @@
+{
+	"info": {
+		"_postman_id": "84fd0dd8-a727-4171-a13a-97008c6775e2",
+		"name": "Pet Store Collection",
+		"description": "### **The Collection based on the Pet Swagger Rest Api Practice page**\n\n*   Under the collection package User flow doing user creating calls and covering the automated test by postman automation\n*   Second package has the pet flow. Creating and checking the pet status. Also provided with the automation test by Postman\n    \n\n#### **HOW TO RUN ALL COLLECTION**\n\n*   Clicking the after the collection 3 dot, clicking the '**Run Collection'** section\n*   Then click the RUN COLLECTION blue button\n*   And than check the result",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33403194"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData = pm.collectionVariables.get(\"test_data\");",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"    pm.expect(jsonData.message).to.eql(testData.id.toString());",
+									"    ",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"code\",",
+									"        \"type\",",
+									"        \"message\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"pm.test(\"Validate schema with tv4\", () => {",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"user_name\", \"djarin2\");\r",
+									"\r",
+									"pm.request.body.add\r",
+									"\r",
+									"pm.collectionVariables.set(\"test_data\", {\r",
+									"    \"id\": 1894,\r",
+									"    \"username\": \"djarin2\",\r",
+									"    \"firstName\": \"Din\",\r",
+									"    \"lastName\": \"Djarin\",\r",
+									"    \"email\": \"din.djarin@mando.com\",\r",
+									"    \"password\": \"Great123\",\r",
+									"    \"phone\": \"01299145399\",\r",
+									"    \"userStatus\": 0\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1894,\n    \"username\": \"djarin2\",\n    \"firstName\": \"Din\",\n    \"lastName\": \"Djarin\",\n    \"email\": \"din.djarin@mando.com\",\n    \"password\": \"Great123\",\n    \"phone\": \"01299145399\",\n    \"userStatus\": 0\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 1299,\n  \"username\": \"FirstOsman\",\n  \"firstName\": \"Osman\",\n  \"lastName\": \"Legend\",\n  \"email\": \"osman.legend@ottoman.com\",\n  \"password\": \"Great123\",\n  \"phone\": \"01299145399\",\n  \"userStatus\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"const testData = pm.collectionVariables.get(\"test_data\");",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.id).to.eql(testData.id);",
+									"    pm.expect(jsonData.username).to.eql(testData.username);",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"id\": {",
+									"      \"type\": \"integer\"",
+									"    },",
+									"    \"username\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"firstName\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"lastName\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"email\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"password\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"phone\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"userStatus\": {",
+									"      \"type\": \"integer\"",
+									"    }",
+									"  },",
+									"  \"required\": [",
+									"    \"id\",",
+									"    \"username\",",
+									"    \"firstName\",",
+									"    \"lastName\",",
+									"    \"email\",",
+									"    \"password\",",
+									"    \"phone\",",
+									"    \"userStatus\"",
+									"  ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/{{user_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData = pm.collectionVariables.get(\"test_data\");",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"    pm.expect(jsonData.message).to.eql(testData.id.toString());",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"code\",",
+									"        \"type\",",
+									"        \"message\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"user_name\", \"Grogu\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1894,\n    \"username\": \"Grogu\",\n    \"firstName\": \"Din2\",\n    \"lastName\": \"Djarin2\",\n    \"email\": \"din.djarin@mando.com\",\n    \"password\": \"Great123\",\n    \"phone\": \"01299145399\",\n    \"userStatus\": 0\n}"
+						},
+						"url": {
+							"raw": "{{url}}/user/{{user_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_name}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update User",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 1299,\n  \"username\": \"SecondOsman\",\n  \"firstName\": \"Osman\",\n  \"lastName\": \"Legend\",\n  \"email\": \"osman.legend@ottoman.com\",\n  \"password\": \"Great123\",\n  \"phone\": \"01299145399\",\n  \"userStatus\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/{{user_name}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"{{user_name}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData =pm.collectionVariables.get(\"test_data\")",
+									"const username = pm.collectionVariables.get(\"user_name\")",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.id).to.eql(testData.id);",
+									"    pm.expect(jsonData.username).to.eql(username);",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"  \"type\": \"object\",",
+									"  \"properties\": {",
+									"    \"id\": {",
+									"      \"type\": \"integer\"",
+									"    },",
+									"    \"username\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"firstName\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"lastName\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"email\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"password\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"phone\": {",
+									"      \"type\": \"string\"",
+									"    },",
+									"    \"userStatus\": {",
+									"      \"type\": \"integer\"",
+									"    }",
+									"  },",
+									"  \"required\": [",
+									"    \"id\",",
+									"    \"username\",",
+									"    \"firstName\",",
+									"    \"lastName\",",
+									"    \"email\",",
+									"    \"password\",",
+									"    \"phone\",",
+									"    \"userStatus\"",
+									"  ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/{{user_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"    pm.expect(jsonData.message).to.eql(\"Grogu\");",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"code\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"type\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"code\",",
+									"        \"type\",",
+									"        \"message\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/{{user_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.code).to.eql(1);",
+									"    pm.expect(jsonData.message).to.eql(\"User not found\");",
+									"});",
+									"",
+									"pm.collectionVariables.unset(\"user_name\");",
+									"pm.collectionVariables.unset(\"user_id\");",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/{{user_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{user_name}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### **The Flow for the User Creating:**\n\n*   The calls are covering creating user with POST\n*   Reading the created user with GET\n*   Updating the user with PUT\n*   Again getting the updated user with GET\n*   Deleting the user with DELETE\n*   After all it's deleting and getting all deleted info with GET"
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "Create Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData= pm.collectionVariables.get(\"test_data\")",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    ",
+									"    pm.expect(jsonData.id).to.eql(testData.id);",
+									"    pm.expect(jsonData.category.id).to.eql(testData.category.id);",
+									"    pm.expect(jsonData.category.name).to.eql(testData.category.name);",
+									"    pm.expect(jsonData.status).to.eql(testData.status);",
+									"});",
+									"",
+									"pm.collectionVariables.set(\"pet_id\", testData.id);",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"category\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\"",
+									"                },",
+									"                \"name\": {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            },",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"name\"",
+									"            ]",
+									"        },",
+									"        \"name\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"photoUrls\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"tags\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                        \"id\": {",
+									"                            \"type\": \"integer\"",
+									"                        },",
+									"                        \"name\": {",
+									"                            \"type\": \"string\"",
+									"                        }",
+									"                    },",
+									"                    \"required\": [",
+									"                        \"id\",",
+									"                        \"name\"",
+									"                    ]",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"id\",",
+									"        \"category\",",
+									"        \"name\",",
+									"        \"photoUrls\",",
+									"        \"tags\",",
+									"        \"status\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"test_data\", {\r",
+									"    \"id\": 5354,\r",
+									"    \"category\": {\r",
+									"        \"id\": 50,\r",
+									"        \"name\": \"dog\"\r",
+									"    },\r",
+									"    \"name\": \"dogger\",\r",
+									"    \"photoUrls\": [\r",
+									"        \"string\"\r",
+									"    ],\r",
+									"    \"tags\": [\r",
+									"        {\r",
+									"            \"id\": 10,\r",
+									"            \"name\": \"dogdog\"\r",
+									"        }\r",
+									"    ],\r",
+									"    \"status\": \"available\"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 5354,\n    \"category\": {\n        \"id\": 50,\n        \"name\": \"dog\"\n    },\n    \"name\": \"dogger\",\n    \"photoUrls\": [\n        \"string\"\n    ],\n    \"tags\": [\n        {\n            \"id\": 10,\n            \"name\": \"dogdog\"\n        }\n    ],\n    \"status\": \"available\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/pet",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Pet",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 0,\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"string\"\n  },\n  \"name\": \"doggie\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/pet",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"pet"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.id).to.eql(5354);",
+									"    pm.expect(jsonData.category.id).to.eql(50);",
+									"    pm.expect(jsonData.category.name).to.eql(\"dog\");",
+									"    pm.expect(jsonData.status).to.eql(\"available\");",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"category\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\"",
+									"                },",
+									"                \"name\": {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            },",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"name\"",
+									"            ]",
+									"        },",
+									"        \"name\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"photoUrls\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"tags\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                        \"id\": {",
+									"                            \"type\": \"integer\"",
+									"                        },",
+									"                        \"name\": {",
+									"                            \"type\": \"string\"",
+									"                        }",
+									"                    },",
+									"                    \"required\": [",
+									"                        \"id\",",
+									"                        \"name\"",
+									"                    ]",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"id\",",
+									"        \"category\",",
+									"        \"name\",",
+									"        \"photoUrls\",",
+									"        \"tags\",",
+									"        \"status\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/pet/{{pet_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData= pm.collectionVariables.get(\"test_data\")",
+									"",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.id).to.eql(testData.id);",
+									"    pm.expect(jsonData.category.id).to.eql(testData.category.id);",
+									"    pm.expect(jsonData.name).to.eql(testData.name);",
+									"    pm.expect(jsonData.status).to.eql(testData.status);",
+									"});",
+									"pm.collectionVariables.set(\"pet_id\", testData.id);",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"category\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\"",
+									"                },",
+									"                \"name\": {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            },",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"name\"",
+									"            ]",
+									"        },",
+									"        \"name\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"photoUrls\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"tags\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                        \"id\": {",
+									"                            \"type\": \"integer\"",
+									"                        },",
+									"                        \"name\": {",
+									"                            \"type\": \"string\"",
+									"                        }",
+									"                    },",
+									"                    \"required\": [",
+									"                        \"id\",",
+									"                        \"name\"",
+									"                    ]",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"id\",",
+									"        \"category\",",
+									"        \"name\",",
+									"        \"photoUrls\",",
+									"        \"tags\",",
+									"        \"status\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"test_data\", {\r",
+									"  \"id\": 5354,\r",
+									"  \"category\": {\r",
+									"    \"id\": 50,\r",
+									"    \"name\": \"string\"\r",
+									"  },\r",
+									"  \"name\": \"caties\",\r",
+									"  \"photoUrls\": [\r",
+									"    \"string\"\r",
+									"  ],\r",
+									"  \"tags\": [\r",
+									"    {\r",
+									"      \"id\": 0,\r",
+									"      \"name\": \"string\"\r",
+									"    }\r",
+									"  ],\r",
+									"  \"status\": \"pending\"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 5354,\n  \"category\": {\n    \"id\": 50,\n    \"name\": \"string\"\n  },\n  \"name\": \"caties\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"pending\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/pet",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Pet",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"name": "Content-Type",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 5354,\n  \"category\": {\n    \"id\": 50,\n    \"name\": \"cat\"\n  },\n  \"name\": \"caties\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"pending\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/pet",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"pet"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Pet After Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const testData = pm.collectionVariables.get(\"test_data\")",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.id).to.eql(testData.id);",
+									"    pm.expect(jsonData.category.id).to.eql(testData.category.id);",
+									"    pm.expect(jsonData.name).to.eql(testData.name);",
+									"    pm.expect(jsonData.status).to.eql(testData.status);",
+									"});",
+									"",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"category\": {",
+									"            \"type\": \"object\",",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\"",
+									"                },",
+									"                \"name\": {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            },",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"name\"",
+									"            ]",
+									"        },",
+									"        \"name\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"photoUrls\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"string\"",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"tags\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": [",
+									"                {",
+									"                    \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                        \"id\": {",
+									"                            \"type\": \"integer\"",
+									"                        },",
+									"                        \"name\": {",
+									"                            \"type\": \"string\"",
+									"                        }",
+									"                    },",
+									"                    \"required\": [",
+									"                        \"id\",",
+									"                        \"name\"",
+									"                    ]",
+									"                }",
+									"            ]",
+									"        },",
+									"        \"status\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [",
+									"        \"id\",",
+									"        \"category\",",
+									"        \"name\",",
+									"        \"photoUrls\",",
+									"        \"tags\",",
+									"        \"status\"",
+									"    ]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/pet/{{pet_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.code).to.eql(200);",
+									"    pm.expect(jsonData.message).to.eql(pm.collectionVariables.get(\"pet_id\").toString());",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/pet/{{pet_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Pet",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/pet/{{pet_id}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"pet",
+										"{{pet_id}}"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Pet After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"pm.test(\"Check Response Body Values\", function () {",
+									"    pm.expect(jsonData.code).to.eql(1);",
+									"    pm.expect(jsonData.message).to.eql(\"Pet not found\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/pet/{{pet_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{pet_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### **Pet Flow Documentation:**\n\n*   The package covering the creating pet with POST\n*   Checking the created pet using GET\n*   Updating the existing pet with PUT\n*   Checking correct pet updated successfully with GET\n*   Deleting after all step creation done with DELETE\n*   And checking no data related with the cases with GET"
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Create Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"test_data\",{\r",
+									"  \"id\": 5,\r",
+									"  \"petId\": 258,\r",
+									"  \"quantity\": 333,\r",
+									"  \"shipDate\": \"2023-05-26T21:04:22.450Z\",\r",
+									"  \"status\": \"placed\",\r",
+									"  \"complete\": true\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"order_id\",pm.collectionVariables.get(\"test_data\").id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const testData= pm.collectionVariables.get(\"test_data\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check Response Body Values\", function () {\r",
+									"    \r",
+									"    pm.expect(jsonData.id).to.eql(testData.id);\r",
+									"    pm.expect(jsonData.petID).to.eql(testData.petID);\r",
+									"    pm.expect(jsonData.quantity).to.eql(testData.quantity);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"const schema = {\r",
+									" \r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"petId\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"quantity\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"shipDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"status\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"complete\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"petId\",\r",
+									"    \"quantity\",\r",
+									"    \"shipDate\",\r",
+									"    \"status\",\r",
+									"    \"complete\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 5,\r\n  \"petId\": 258,\r\n  \"quantity\": 333,\r\n  \"shipDate\": \"2023-05-26T21:04:22.450Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/store/order",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const testData= pm.collectionVariables.get(\"test_data\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check Response Body Values\", function () {\r",
+									"    \r",
+									"    pm.expect(jsonData.id).to.eql(testData.id);\r",
+									"    pm.expect(jsonData.petID).to.eql(testData.petID);\r",
+									"    pm.expect(jsonData.quantity).to.eql(testData.quantity);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"const schema = {\r",
+									" \r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"petId\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"quantity\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"shipDate\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"status\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"complete\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"petId\",\r",
+									"    \"quantity\",\r",
+									"    \"shipDate\",\r",
+									"    \"status\",\r",
+									"    \"complete\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/order/{{order_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const testData= pm.collectionVariables.get(\"test_data\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check Response Body Values\", function () {\r",
+									"    \r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eql(testData.id.toString());\r",
+									"    pm.expect(jsonData.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"pet_id\", testData.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/order/{{order_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order After Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check Response Body Values\", function () {\r",
+									"    \r",
+									"    pm.expect(jsonData.code).to.eql(1);\r",
+									"    pm.expect(jsonData.type).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.message).to.eql(\"Order not found\");\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"const schema = {\r",
+									" \r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"code\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"type\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"message\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"code\",\r",
+									"    \"type\",\r",
+									"    \"message\",\r",
+									"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/order/{{order_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://petstore.swagger.io/v2"
+		},
+		{
+			"key": "pet_id",
+			"value": ""
+		},
+		{
+			"key": "test_data",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		},
+		{
+			"key": "user_name",
+			"value": ""
+		}
+	]
+}
